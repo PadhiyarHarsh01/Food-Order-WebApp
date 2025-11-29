@@ -22,34 +22,42 @@ export default function LoginPage() {
   const { toast } = useToast()
 
   const [isLoading, setIsLoading] = useState(false)
+  const [loginError, setLoginError] = useState<string | null>(null)
+  const [signupError, setSignupError] = useState<string | null>(null)
   const [loginData, setLoginData] = useState({ email: "", password: "" })
-  const [signupData, setSignupData] = useState({ name: "", email: "", password: "" })
+  const [signupData, setSignupData] = useState({ name: "", email: "", password: "", phone: "" })
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoginError(null)
     setIsLoading(true)
-    const success = await login(loginData.email, loginData.password)
+    const result = await login(loginData.email, loginData.password)
     setIsLoading(false)
 
-    if (success) {
+    if (result.success) {
       toast({ title: "Welcome back!", description: "You have successfully logged in." })
       router.push(redirect)
     } else {
-      toast({ title: "Login failed", description: "Please check your credentials.", variant: "destructive" })
+      const errorMsg = result.error || "Please check your credentials."
+      setLoginError(errorMsg)
+      toast({ title: "Login failed", description: errorMsg, variant: "destructive" })
     }
   }
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
+    setSignupError(null)
     setIsLoading(true)
-    const success = await signup(signupData.name, signupData.email, signupData.password)
+    const result = await signup(signupData.name, signupData.email, signupData.password, signupData.phone)
     setIsLoading(false)
 
-    if (success) {
+    if (result.success) {
       toast({ title: "Account created!", description: "Welcome to FoodieSpot." })
       router.push(redirect)
     } else {
-      toast({ title: "Signup failed", description: "Please try again.", variant: "destructive" })
+      const errorMsg = result.error || "Please try again."
+      setSignupError(errorMsg)
+      toast({ title: "Signup failed", description: errorMsg, variant: "destructive" })
     }
   }
 
@@ -78,6 +86,9 @@ export default function LoginPage() {
               <form onSubmit={handleLogin}>
                 <CardContent className="space-y-4">
                   <CardDescription>Enter your credentials to access your account.</CardDescription>
+                  {loginError && (
+                    <div className="p-3 bg-red-100 text-red-700 rounded text-sm">{loginError}</div>
+                  )}
                   <div className="space-y-2">
                     <Label htmlFor="login-email">Email</Label>
                     <Input
@@ -85,7 +96,10 @@ export default function LoginPage() {
                       type="email"
                       placeholder="john@example.com"
                       value={loginData.email}
-                      onChange={(e) => setLoginData((prev) => ({ ...prev, email: e.target.value }))}
+                      onChange={(e) => {
+                        setLoginData((prev) => ({ ...prev, email: e.target.value }))
+                        setLoginError(null)
+                      }}
                       required
                     />
                   </div>
@@ -96,7 +110,10 @@ export default function LoginPage() {
                       type="password"
                       placeholder="••••••••"
                       value={loginData.password}
-                      onChange={(e) => setLoginData((prev) => ({ ...prev, password: e.target.value }))}
+                      onChange={(e) => {
+                        setLoginData((prev) => ({ ...prev, password: e.target.value }))
+                        setLoginError(null)
+                      }}
                       required
                     />
                   </div>
@@ -114,6 +131,9 @@ export default function LoginPage() {
               <form onSubmit={handleSignup}>
                 <CardContent className="space-y-4">
                   <CardDescription>Create an account to start ordering delicious food.</CardDescription>
+                  {signupError && (
+                    <div className="p-3 bg-red-100 text-red-700 rounded text-sm">{signupError}</div>
+                  )}
                   <div className="space-y-2">
                     <Label htmlFor="signup-name">Full Name</Label>
                     <Input
@@ -121,7 +141,10 @@ export default function LoginPage() {
                       type="text"
                       placeholder="John Doe"
                       value={signupData.name}
-                      onChange={(e) => setSignupData((prev) => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) => {
+                        setSignupData((prev) => ({ ...prev, name: e.target.value }))
+                        setSignupError(null)
+                      }}
                       required
                     />
                   </div>
@@ -132,7 +155,24 @@ export default function LoginPage() {
                       type="email"
                       placeholder="john@example.com"
                       value={signupData.email}
-                      onChange={(e) => setSignupData((prev) => ({ ...prev, email: e.target.value }))}
+                      onChange={(e) => {
+                        setSignupData((prev) => ({ ...prev, email: e.target.value }))
+                        setSignupError(null)
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-phone">Phone Number</Label>
+                    <Input
+                      id="signup-phone"
+                      type="tel"
+                      placeholder="+1 (555) 000-0000"
+                      value={signupData.phone}
+                      onChange={(e) => {
+                        setSignupData((prev) => ({ ...prev, phone: e.target.value }))
+                        setSignupError(null)
+                      }}
                       required
                     />
                   </div>
@@ -143,7 +183,10 @@ export default function LoginPage() {
                       type="password"
                       placeholder="••••••••"
                       value={signupData.password}
-                      onChange={(e) => setSignupData((prev) => ({ ...prev, password: e.target.value }))}
+                      onChange={(e) => {
+                        setSignupData((prev) => ({ ...prev, password: e.target.value }))
+                        setSignupError(null)
+                      }}
                       required
                     />
                   </div>

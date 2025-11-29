@@ -23,7 +23,11 @@ const request = async (endpoint: string, config: RequestConfig = {}) => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error || 'API request failed');
+    const errorMessage = error.error || error.message || 'API request failed';
+    const err = new Error(errorMessage);
+    (err as any).status = response.status;
+    (err as any).details = error;
+    throw err;
   }
 
   return response.json();
