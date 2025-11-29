@@ -1,0 +1,111 @@
+# Root .gitignore for Food Delivery App
+
+# Environment Variables (SENSITIVE - Never commit!)
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Node modules
+node_modules/
+npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# Build artifacts
+dist/
+build/
+.next/
+out/
+.nuxt/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.history/
+.ionide/
+
+# Testing
+.nyc_output/
+coverage/
+*.lcov
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+tmp/
+temp/
+
+# Dependencies (optional - can be regenerated from package.json)
+pnpm-lock.yaml (keep this if you use pnpm)
+package-lock.json (keep this if needed)
+yarn.lock
+
+# Misc
+.cache/
+.pnp
+.pnp.js
+.tern-port
+.vueuse
+
+# Local development
+localhost.key
+localhost.crt
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# API Keys and Secrets (if accidentally added)
+secrets.json
+api-keys.json
+
+# Build output
+*.tsbuildinfo
+
+# Netlify
+.netlify
+
+# Vercel
+.vercel
+
+# macOS
+.AppleDouble
+.LSOverride
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
