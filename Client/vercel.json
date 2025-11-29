@@ -1,0 +1,45 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "nodeVersion": "20.x",
+  "env": [
+    {
+      "key": "NEXT_PUBLIC_API_URL",
+      "value": "https://your-backend-domain.vercel.app/api",
+      "type": "plaintext",
+      "comment": "Update this to your deployed backend URL"
+    }
+  ],
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "redirects": [],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://your-backend-domain.vercel.app/api/$1"
+    }
+  ]
+}
